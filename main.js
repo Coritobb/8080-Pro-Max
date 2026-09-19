@@ -7,6 +7,7 @@ const assembler = new Assembler8080();
 
 let runInterval = null;
 let memoryStart = 0;
+let flujoMostrado = false;
 
 function updateUI() {
     // Registers
@@ -50,7 +51,10 @@ function mostrarCoprocesador() {
 
     document.getElementById('copro-operacion').textContent = 'NINGUNA';
     document.getElementById('copro-estado').textContent = 'ESPERANDO';
-
+    
+    if (estado == 0) {
+    flujoMostrado = false;
+    }
     if (operacion == 1) {
         document.getElementById('copro-operacion').textContent = 'SUMA';
     }
@@ -68,13 +72,43 @@ function mostrarCoprocesador() {
         document.getElementById('copro-estado').textContent = 'TRABAJANDO';
     }
 if (estado == 2) {
-        document.getElementById('copro-estado').textContent = 'LISTO';
+    document.getElementById('copro-estado').textContent = 'LISTO';
+    if (flujoMostrado == false) {
+        animarFlujo();
+        flujoMostrado = true;
     }
+}
  if (estado == 3) {
         document.getElementById('copro-estado').textContent = 'ERROR';
     }
 }
-
+function animarFlujo() {
+    let flecha1 = document.getElementById('flecha1');
+    let flecha2 = document.getElementById('flecha2');
+    let texto = document.getElementById('texto-flujo');
+    flecha1.textContent = '→';
+    flecha2.textContent = '-';
+    texto.textContent = 'CPU envia los datos a memoria';
+    setTimeout(function() {
+        flecha1.textContent = '-';
+        flecha2.textContent = '→';
+        texto.textContent = 'Memoria envia los datos al coprocesador';
+    }, 700);
+    setTimeout(function() {
+        flecha2.textContent = '←';
+        texto.textContent = 'Coprocesador guarda el resultado en memoria';
+    }, 1400);
+    setTimeout(function() {
+        flecha1.textContent = '←';
+        flecha2.textContent = '-';
+        texto.textContent = 'CPU recupera el resultado de memoria';
+    }, 2100);
+    setTimeout(function() {
+        flecha1.textContent = '-';
+        flecha2.textContent = '-';
+        texto.textContent = 'Operacion terminada';
+    }, 2800);
+}
 function renderStack() {
     const table = document.getElementById('stack-table');
     if (!table) return;
