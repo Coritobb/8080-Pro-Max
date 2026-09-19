@@ -393,3 +393,10 @@ input:focus {
 #status-badge {
     color: #0B1020;
 }
+.card:last-child {
+    border: 2px solid #FACC15;
+}
+
+.card:last-child h3 {
+    color: #FACC15;
+}
