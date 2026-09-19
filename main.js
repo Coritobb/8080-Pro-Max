@@ -36,12 +36,14 @@ function updateUI() {
     renderStack();
     mostrarCoprocesador();
 }
-function mostrarCoprocesador() {
 
+function mostrarCoprocesador() {
     let memoria = new DataView(cpu.memory.buffer);
+
     let numero1 = memoria.getFloat32(0xF000, true);
     let numero2 = memoria.getFloat32(0xF004, true);
     let resultado = memoria.getFloat32(0xF008, true);
+
     let operacion = cpu.readMemory(0xF00C);
     let estado = cpu.readMemory(0xF00D);
 
@@ -51,10 +53,11 @@ function mostrarCoprocesador() {
 
     document.getElementById('copro-operacion').textContent = 'NINGUNA';
     document.getElementById('copro-estado').textContent = 'ESPERANDO';
-    
+
     if (estado == 0) {
-    flujoMostrado = false;
+        flujoMostrado = false;
     }
+
     if (operacion == 1) {
         document.getElementById('copro-operacion').textContent = 'SUMA';
     }
@@ -62,75 +65,86 @@ function mostrarCoprocesador() {
     if (operacion == 2) {
         document.getElementById('copro-operacion').textContent = 'RESTA';
     }
- if (operacion == 3) {
+
+    if (operacion == 3) {
         document.getElementById('copro-operacion').textContent = 'MULTIPLICACION';
     }
- if (operacion == 4) {
+
+    if (operacion == 4) {
         document.getElementById('copro-operacion').textContent = 'DIVISION';
     }
-  if (estado == 1) {
+
+    if (estado == 1) {
         document.getElementById('copro-estado').textContent = 'TRABAJANDO';
     }
-if (estado == 2) {
-    document.getElementById('copro-estado').textContent = 'LISTO';
-    if (flujoMostrado == false) {
-        animarFlujo();
-        flujoMostrado = true;
+
+    if (estado == 2) {
+        document.getElementById('copro-estado').textContent = 'LISTO';
+
+        if (flujoMostrado == false) {
+            animarFlujo();
+            flujoMostrado = true;
+        }
     }
-}
- if (estado == 3) {
+
+    if (estado == 3) {
         document.getElementById('copro-estado').textContent = 'ERROR';
     }
 }
+
 function mostrarPalitos(lugar) {
+    let cpuVisual = document.getElementById('palitos-cpu');
+    let ramVisual = document.getElementById('palitos-ram');
+    let coproVisual = document.getElementById('palitos-copro');
 
-    let cpu = document.getElementById('palitos-cpu');
-    let ram = document.getElementById('palitos-ram');
-    let copro = document.getElementById('palitos-copro');
-
-    cpu.style.visibility = 'hidden';
-    ram.style.visibility = 'hidden';
-    copro.style.visibility = 'hidden';
+    cpuVisual.style.visibility = 'hidden';
+    ramVisual.style.visibility = 'hidden';
+    coproVisual.style.visibility = 'hidden';
 
     if (lugar == 'cpu') {
-        cpu.style.visibility = 'visible';
+        cpuVisual.style.visibility = 'visible';
     }
 
     if (lugar == 'ram') {
-        ram.style.visibility = 'visible';
+        ramVisual.style.visibility = 'visible';
     }
 
     if (lugar == 'copro') {
-        copro.style.visibility = 'visible';
+        coproVisual.style.visibility = 'visible';
     }
 }
+
 function animarFlujo() {
-    function animarFlujo() {
     let flecha1 = document.getElementById('flecha1');
     let flecha2 = document.getElementById('flecha2');
     let texto = document.getElementById('texto-flujo');
+
     mostrarPalitos('cpu');
     flecha1.textContent = '→';
     flecha2.textContent = '-';
     texto.textContent = 'CPU envia los datos a memoria';
+
     setTimeout(function() {
         mostrarPalitos('ram');
         flecha1.textContent = '-';
         flecha2.textContent = '→';
         texto.textContent = 'Memoria envia los datos al coprocesador';
     }, 700);
+
     setTimeout(function() {
         mostrarPalitos('copro');
         flecha1.textContent = '-';
         flecha2.textContent = '←';
         texto.textContent = 'Coprocesador guarda el resultado en memoria';
     }, 1400);
+
     setTimeout(function() {
         mostrarPalitos('ram');
         flecha1.textContent = '←';
         flecha2.textContent = '-';
         texto.textContent = 'CPU recupera el resultado de memoria';
     }, 2100);
+
     setTimeout(function() {
         mostrarPalitos('cpu');
         flecha1.textContent = '-';
@@ -138,6 +152,7 @@ function animarFlujo() {
         texto.textContent = 'Operacion terminada';
     }, 2800);
 }
+
 function renderStack() {
     const table = document.getElementById('stack-table');
     if (!table) return;
@@ -212,6 +227,7 @@ function renderMemory() {
 document.getElementById('btn-assemble').addEventListener('click', () => {
     const source = document.getElementById('code-editor').value;
     const output = document.getElementById('assembler-output');
+
     try {
         const result = assembler.assemble(source);
         cpu.memory.set(result.binary);
@@ -227,6 +243,7 @@ document.getElementById('btn-assemble').addEventListener('click', () => {
 document.getElementById('btn-clear-code').addEventListener('click', () => {
     document.getElementById('code-editor').value = '';
     const output = document.getElementById('assembler-output');
+
     if (output) {
         output.textContent = '';
         output.className = '';
@@ -240,6 +257,7 @@ document.getElementById('btn-step').addEventListener('click', () => {
 
 document.getElementById('btn-run').addEventListener('click', () => {
     if (runInterval) return;
+
     runInterval = setInterval(() => {
         if (cpu.halted) {
             clearInterval(runInterval);
@@ -247,12 +265,15 @@ document.getElementById('btn-run').addEventListener('click', () => {
             updateUI();
             return;
         }
+
         for (let i = 0; i < 100; i++) { // Execute in bursts
             cpu.step();
             if (cpu.halted) break;
         }
+
         updateUI();
     }, 10);
+
     updateUI();
 });
 
@@ -269,6 +290,7 @@ document.getElementById('btn-reset').addEventListener('click', () => {
         clearInterval(runInterval);
         runInterval = null;
     }
+
     cpu.reset();
 
     // Clear assembler output
@@ -283,6 +305,7 @@ document.getElementById('btn-reset').addEventListener('click', () => {
     if (memStartInput) {
         memStartInput.value = '0000';
     }
+
     memoryStart = 0;
 
     updateUI();
