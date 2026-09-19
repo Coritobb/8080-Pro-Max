@@ -266,3 +266,87 @@ button:disabled {
 .stack-val {
     font-weight: bold;
 }
+body {
+    background-color: #0B1020;
+    color: #F8FAFC;
+}
+
+header {
+    background-color: #151B2F;
+}
+
+header h1 {
+    color: #F8FAFC;
+}
+
+.version-badge {
+    background-color: #2563EB;
+    color: white;
+}
+
+.card {
+    background-color: #151B2F;
+    color: #F8FAFC;
+    border: 1px solid #2563EB;
+}
+
+h2,
+h3 {
+    color: #F8FAFC;
+}
+
+button {
+    background-color: #2563EB;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #1D4ED8;
+}
+
+#btn-stop,
+#btn-reset {
+    background-color: #DC2626;
+}
+
+#btn-stop:hover,
+#btn-reset:hover {
+    background-color: #B91C1C;
+}
+
+#status-badge {
+    color: #0B1020;
+}
+
+.reg-box,
+.flag-box {
+    background-color: #0B1020;
+    color: #F8FAFC;
+    border: 1px solid #2563EB;
+}
+
+#memory-table,
+#stack-table {
+    color: #F8FAFC;
+}
+
+textarea,
+input {
+    background-color: #0B1020;
+    color: #F8FAFC;
+    border: 1px solid #2563EB;
+}
+
+textarea:focus,
+input:focus {
+    outline: 2px solid #FACC15;
+}
+
+#assembler-output.success {
+    color: #86EFAC;
+}
+
+#assembler-output.error {
+    color: #FCA5A5;
+}
