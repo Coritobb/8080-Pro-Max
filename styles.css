@@ -1,10 +1,10 @@
 :root {
-    --bg-color: #f0f2f5;
-    --card-bg: #ffffff;
-    --primary-color: #2563eb;
-    --secondary-color: #64748b;
-    --text-color: #1e293b;
-    --border-color: #e2e8f0;
+    --bg-color: #0B1020;
+    --card-bg: #151B2F;
+    --primary-color: #2563EB;
+    --secondary-color: #94A3B8;
+    --text-color: #F8FAFC;
+    --border-color: #2563EB;
 }
 
 body {
@@ -266,43 +266,43 @@ button:disabled {
 .stack-val {
     font-weight: bold;
 }
-body {
+textarea,
+input {
     background-color: #0B1020;
     color: #F8FAFC;
 }
 
-header {
-    background-color: #151B2F;
-}
-
-header h1 {
+.reg-box,
+.flag-box {
+    background-color: #0B1020;
     color: #F8FAFC;
 }
 
-.version-badge {
-    background-color: #2563EB;
-    color: white;
+.reg-box span,
+.flag-box span {
+    background-color: #E2E8F0;
+    color: #1E293B;
 }
 
-.card {
-    background-color: #151B2F;
-    color: #F8FAFC;
-    border: 1px solid #2563EB;
+.mem-cell {
+    background-color: #F8FAFC;
+    color: #1E293B;
 }
 
-h2,
-h3 {
-    color: #F8FAFC;
+.mem-header,
+.mem-addr {
+    background-color: #E2E8F0;
+    color: #1E293B;
 }
 
-button {
-    background-color: #2563EB;
-    color: white;
-    border: none;
+.stack-row {
+    background-color: #F8FAFC;
+    color: #1E293B;
 }
 
-button:hover {
-    background-color: #1D4ED8;
+.stack-row.active {
+    background-color: #FACC15;
+    color: #1E293B;
 }
 
 #btn-stop,
@@ -310,93 +310,11 @@ button:hover {
     background-color: #DC2626;
 }
 
-#btn-stop:hover,
-#btn-reset:hover {
-    background-color: #B91C1C;
-}
-
 #status-badge {
-    color: #0B1020;
+    color: #1E293B;
 }
 
-.reg-box,
-.flag-box {
-    background-color: #0B1020;
-    color: #F8FAFC;
-    border: 1px solid #2563EB;
-}
-
-#memory-table,
-#stack-table {
-    color: #F8FAFC;
-}
-
-textarea,
-input {
-    background-color: #0B1020;
-    color: #F8FAFC;
-    border: 1px solid #2563EB;
-}
-
-textarea:focus,
-input:focus {
-    outline: 2px solid #FACC15;
-}
-
-#assembler-output.success {
-    color: #86EFAC;
-}
-
-#assembler-output.error {
-    color: #FCA5A5;
-}
-.card:last-child {
-    border: 2px solid #FACC15;
-}
-
-.card:last-child h3 {
-    color: #FACC15;
-}
-.card:nth-last-child(2) {
-    border: 2px solid #DC2626;
-}
-
-.card:nth-last-child(2) h3 {
-    color: #DC2626;
-}
-#editor-section,
-#emulator-section {
-    color: #0B1020;
-}
-
-#editor-section h2,
-#emulator-section h2 {
-    color: #151B2F;
-}
-
-.mem-cell,
-.stack-row,
-.reg-box span,
-.flag-box span {
-    color: #0B1020;
-}
-
-.mem-header,
-.mem-addr {
-    color: #151B2F;
-}
-
-.stack-row.active {
-    color: #0B1020;
-}
-
-#status-badge {
-    color: #0B1020;
-}
-.card:last-child {
-    border: 2px solid #FACC15;
-}
-
-.card:last-child h3 {
-    color: #FACC15;
+.success {
+    color: #16A34A;
+    background-color: #F0FDF4;
 }
