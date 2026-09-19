@@ -364,3 +364,32 @@ input:focus {
 .card:nth-last-child(2) h3 {
     color: #DC2626;
 }
+#editor-section,
+#emulator-section {
+    color: #0B1020;
+}
+
+#editor-section h2,
+#emulator-section h2 {
+    color: #151B2F;
+}
+
+.mem-cell,
+.stack-row,
+.reg-box span,
+.flag-box span {
+    color: #0B1020;
+}
+
+.mem-header,
+.mem-addr {
+    color: #151B2F;
+}
+
+.stack-row.active {
+    color: #0B1020;
+}
+
+#status-badge {
+    color: #0B1020;
+}
