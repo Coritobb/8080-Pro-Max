@@ -179,6 +179,10 @@ class Intel8080 {
 
         switch (opcode) {
             case 0x00: break; // NOP
+            case 0x08: this.coprocesador.ejecutar(1); break;
+            case 0x10: this.coprocesador.ejecutar(2); break;
+            case 0x18: this.coprocesador.ejecutar(3); break;
+            case 0x20: this.coprocesador.ejecutar(4); break;
             case 0x76: this.halted = true; break; // HLT
 
             case 0x01: this.setRP('bc', this.fetch16()); break;
