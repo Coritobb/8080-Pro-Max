@@ -7,7 +7,6 @@ const assembler = new Assembler8080();
 
 let runInterval = null;
 let memoryStart = 0;
-let flujoMostrado = false;
 
 function updateUI() {
     // Registers
@@ -38,6 +37,7 @@ function updateUI() {
 }
 
 function mostrarCoprocesador() {
+
     let memoria = new DataView(cpu.memory.buffer);
 
     let numero1 = memoria.getFloat32(0xF000, true);
@@ -53,10 +53,6 @@ function mostrarCoprocesador() {
 
     document.getElementById('copro-operacion').textContent = 'NINGUNA';
     document.getElementById('copro-estado').textContent = 'ESPERANDO';
-
-    if (estado == 0) {
-        flujoMostrado = false;
-    }
 
     if (operacion == 1) {
         document.getElementById('copro-operacion').textContent = 'SUMA';
@@ -80,77 +76,11 @@ function mostrarCoprocesador() {
 
     if (estado == 2) {
         document.getElementById('copro-estado').textContent = 'LISTO';
-
-        if (flujoMostrado == false) {
-            animarFlujo();
-            flujoMostrado = true;
-        }
     }
 
     if (estado == 3) {
         document.getElementById('copro-estado').textContent = 'ERROR';
     }
-}
-
-function mostrarPalitos(lugar) {
-    let cpuVisual = document.getElementById('palitos-cpu');
-    let ramVisual = document.getElementById('palitos-ram');
-    let coproVisual = document.getElementById('palitos-copro');
-
-    cpuVisual.style.visibility = 'hidden';
-    ramVisual.style.visibility = 'hidden';
-    coproVisual.style.visibility = 'hidden';
-
-    if (lugar == 'cpu') {
-        cpuVisual.style.visibility = 'visible';
-    }
-
-    if (lugar == 'ram') {
-        ramVisual.style.visibility = 'visible';
-    }
-
-    if (lugar == 'copro') {
-        coproVisual.style.visibility = 'visible';
-    }
-}
-
-function animarFlujo() {
-    let flecha1 = document.getElementById('flecha1');
-    let flecha2 = document.getElementById('flecha2');
-    let texto = document.getElementById('texto-flujo');
-
-    mostrarPalitos('cpu');
-    flecha1.textContent = '→';
-    flecha2.textContent = '-';
-    texto.textContent = 'CPU envia los datos a memoria';
-
-    setTimeout(function() {
-        mostrarPalitos('ram');
-        flecha1.textContent = '-';
-        flecha2.textContent = '→';
-        texto.textContent = 'Memoria envia los datos al coprocesador';
-    }, 700);
-
-    setTimeout(function() {
-        mostrarPalitos('copro');
-        flecha1.textContent = '-';
-        flecha2.textContent = '←';
-        texto.textContent = 'Coprocesador guarda el resultado en memoria';
-    }, 1400);
-
-    setTimeout(function() {
-        mostrarPalitos('ram');
-        flecha1.textContent = '←';
-        flecha2.textContent = '-';
-        texto.textContent = 'CPU recupera el resultado de memoria';
-    }, 2100);
-
-    setTimeout(function() {
-        mostrarPalitos('cpu');
-        flecha1.textContent = '-';
-        flecha2.textContent = '-';
-        texto.textContent = 'Operacion terminada';
-    }, 2800);
 }
 
 function renderStack() {
@@ -242,6 +172,7 @@ document.getElementById('btn-assemble').addEventListener('click', () => {
 
 document.getElementById('btn-clear-code').addEventListener('click', () => {
     document.getElementById('code-editor').value = '';
+
     const output = document.getElementById('assembler-output');
 
     if (output) {
@@ -259,6 +190,7 @@ document.getElementById('btn-run').addEventListener('click', () => {
     if (runInterval) return;
 
     runInterval = setInterval(() => {
+
         if (cpu.halted) {
             clearInterval(runInterval);
             runInterval = null;
@@ -268,24 +200,29 @@ document.getElementById('btn-run').addEventListener('click', () => {
 
         for (let i = 0; i < 100; i++) { // Execute in bursts
             cpu.step();
+
             if (cpu.halted) break;
         }
 
         updateUI();
+
     }, 10);
 
     updateUI();
 });
 
 document.getElementById('btn-stop').addEventListener('click', () => {
+
     if (runInterval) {
         clearInterval(runInterval);
         runInterval = null;
         updateUI();
     }
+
 });
 
 document.getElementById('btn-reset').addEventListener('click', () => {
+
     if (runInterval) {
         clearInterval(runInterval);
         runInterval = null;
@@ -295,6 +232,7 @@ document.getElementById('btn-reset').addEventListener('click', () => {
 
     // Clear assembler output
     const output = document.getElementById('assembler-output');
+
     if (output) {
         output.textContent = '';
         output.className = '';
@@ -302,6 +240,7 @@ document.getElementById('btn-reset').addEventListener('click', () => {
 
     // Reset memory start address and variable
     const memStartInput = document.getElementById('mem-start-addr');
+
     if (memStartInput) {
         memStartInput.value = '0000';
     }
@@ -312,9 +251,13 @@ document.getElementById('btn-reset').addEventListener('click', () => {
 });
 
 document.getElementById('btn-mem-go').addEventListener('click', () => {
+
     const val = document.getElementById('mem-start-addr').value;
+
     memoryStart = parseInt(val, 16) || 0;
+
     renderMemory();
+
 });
 
 // Initial UI update
