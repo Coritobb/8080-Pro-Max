@@ -350,3 +350,17 @@ input:focus {
 #assembler-output.error {
     color: #FCA5A5;
 }
+.card:last-child {
+    border: 2px solid #FACC15;
+}
+
+.card:last-child h3 {
+    color: #FACC15;
+}
+.card:nth-last-child(2) {
+    border: 2px solid #DC2626;
+}
+
+.card:nth-last-child(2) h3 {
+    color: #DC2626;
+}
