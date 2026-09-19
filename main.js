@@ -1,5 +1,8 @@
 const cpu = new Intel8080();
 const coprocesador = new Coprocesador(cpu);
+
+cpu.coprocesador = coprocesador;
+
 const assembler = new Assembler8080();
 
 let runInterval = null;
