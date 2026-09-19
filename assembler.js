@@ -1,4 +1,4 @@
-class Assembler8080 {
+    class Assembler8080 {
     constructor() {
         this.opcodes = {
             'NOP': { code: 0x00, bytes: 1 },
@@ -120,7 +120,11 @@ class Assembler8080 {
                 currentPC += tokens.length - 1;
                 return { type: 'data', mnemonic, tokens, pc };
             }
-
+            if (mnemonic === 'DF') {
+                const pc = currentPC;
+                currentPC += 4;
+                return { type: 'float', mnemonic, tokens, pc };
+            }
             const info = this.opcodes[mnemonic];
             if (!info) throw new Error(`Unknown mnemonic: ${mnemonic}`);
             const pc = currentPC;
@@ -133,12 +137,15 @@ class Assembler8080 {
         let maxAddr = 0;
 
         passes.forEach(line => {
-            if (line.type === 'directive') return;
-            let pc = line.pc;
             if (line.type === 'data') {
-                for (let i = 1; i < line.tokens.length; i++) {
-                    binary[pc++] = this.parseValue(line.tokens[i], labels);
-                }
+            for (let i = 1; i < line.tokens.length; i++) {
+            binary[pc++] = this.parseValue(line.tokens[i], labels);
+            }
+            } else if (line.type === 'float') {
+            let numero = parseFloat(line.tokens[1]);
+            let memoria = new DataView(binary.buffer);
+            memoria.setFloat32(pc, numero, true);
+            pc += 4;
             } else {
                 const code = this.generateOpcode(line, labels);
                 binary[pc++] = code.byte1;
