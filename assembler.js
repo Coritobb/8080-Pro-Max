@@ -136,23 +136,38 @@
         const binary = new Uint8Array(65536);
         let maxAddr = 0;
 
-        passes.forEach(line => {
-            if (line.type === 'data') {
-            for (let i = 1; i < line.tokens.length; i++) {
-            binary[pc++] = this.parseValue(line.tokens[i], labels);
-            }
-            } else if (line.type === 'float') {
-            let numero = parseFloat(line.tokens[1]);
-            let memoria = new DataView(binary.buffer);
-            memoria.setFloat32(pc, numero, true);
-            pc += 4;
-            } else {
-                const code = this.generateOpcode(line, labels);
-                binary[pc++] = code.byte1;
-                if (line.info.bytes > 1) binary[pc++] = code.byte2;
-                if (line.info.bytes > 2) binary[pc++] = code.byte3;
-            }
-            if (pc > maxAddr) maxAddr = pc;
+       passes.forEach(line => {
+        if (line.type === 'directive') {
+        return;
+        }
+        let pc = line.pc;
+        if (line.type === 'data') {
+         for (let i = 1; i < line.tokens.length; i++) {
+        binary[pc++] = this.parseValue(line.tokens[i], labels);
+        }
+        }
+        else if (line.type === 'float') {
+        let numero = parseFloat(line.tokens[1]);
+        if (isNaN(numero)) {
+        throw new Error('Numero decimal invalido');
+        }
+        let memoria = new DataView(binary.buffer);
+        memoria.setFloat32(pc, numero, true);
+        pc += 4;
+        }
+        else if (line.type === 'instruction') {
+        const code = this.generateOpcode(line, labels);
+        binary[pc++] = code.byte1;
+        if (line.info.bytes > 1) {
+        binary[pc++] = code.byte2;
+        }
+        if (line.info.bytes > 2) {
+        binary[pc++] = code.byte3;
+        }
+        }
+        if (pc > maxAddr) {
+        maxAddr = pc;
+        }
         });
 
         return { binary, maxAddr };
