@@ -33,6 +33,46 @@ function updateUI() {
 
     renderMemory();
     renderStack();
+    mostrarCoprocesador();
+}
+function mostrarCoprocesador() {
+
+    let memoria = new DataView(cpu.memory.buffer);
+    let numero1 = memoria.getFloat32(0xF000, true);
+    let numero2 = memoria.getFloat32(0xF004, true);
+    let resultado = memoria.getFloat32(0xF008, true);
+    let operacion = cpu.readMemory(0xF00C);
+    let estado = cpu.readMemory(0xF00D);
+
+    document.getElementById('copro-num1').textContent = numero1.toFixed(2);
+    document.getElementById('copro-num2').textContent = numero2.toFixed(2);
+    document.getElementById('copro-resultado').textContent = resultado.toFixed(2);
+
+    document.getElementById('copro-operacion').textContent = 'NINGUNA';
+    document.getElementById('copro-estado').textContent = 'ESPERANDO';
+
+    if (operacion == 1) {
+        document.getElementById('copro-operacion').textContent = 'SUMA';
+    }
+
+    if (operacion == 2) {
+        document.getElementById('copro-operacion').textContent = 'RESTA';
+    }
+ if (operacion == 3) {
+        document.getElementById('copro-operacion').textContent = 'MULTIPLICACION';
+    }
+ if (operacion == 4) {
+        document.getElementById('copro-operacion').textContent = 'DIVISION';
+    }
+  if (estado == 1) {
+        document.getElementById('copro-estado').textContent = 'TRABAJANDO';
+    }
+if (estado == 2) {
+        document.getElementById('copro-estado').textContent = 'LISTO';
+    }
+ if (estado == 3) {
+        document.getElementById('copro-estado').textContent = 'ERROR';
+    }
 }
 
 function renderStack() {
