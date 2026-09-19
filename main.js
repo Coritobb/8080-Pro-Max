@@ -82,28 +82,57 @@ if (estado == 2) {
         document.getElementById('copro-estado').textContent = 'ERROR';
     }
 }
+function mostrarPalitos(lugar) {
+
+    let cpu = document.getElementById('palitos-cpu');
+    let ram = document.getElementById('palitos-ram');
+    let copro = document.getElementById('palitos-copro');
+
+    cpu.style.visibility = 'hidden';
+    ram.style.visibility = 'hidden';
+    copro.style.visibility = 'hidden';
+
+    if (lugar == 'cpu') {
+        cpu.style.visibility = 'visible';
+    }
+
+    if (lugar == 'ram') {
+        ram.style.visibility = 'visible';
+    }
+
+    if (lugar == 'copro') {
+        copro.style.visibility = 'visible';
+    }
+}
 function animarFlujo() {
+    function animarFlujo() {
     let flecha1 = document.getElementById('flecha1');
     let flecha2 = document.getElementById('flecha2');
     let texto = document.getElementById('texto-flujo');
+    mostrarPalitos('cpu');
     flecha1.textContent = '→';
     flecha2.textContent = '-';
     texto.textContent = 'CPU envia los datos a memoria';
     setTimeout(function() {
+        mostrarPalitos('ram');
         flecha1.textContent = '-';
         flecha2.textContent = '→';
         texto.textContent = 'Memoria envia los datos al coprocesador';
     }, 700);
     setTimeout(function() {
+        mostrarPalitos('copro');
+        flecha1.textContent = '-';
         flecha2.textContent = '←';
         texto.textContent = 'Coprocesador guarda el resultado en memoria';
     }, 1400);
     setTimeout(function() {
+        mostrarPalitos('ram');
         flecha1.textContent = '←';
         flecha2.textContent = '-';
         texto.textContent = 'CPU recupera el resultado de memoria';
     }, 2100);
     setTimeout(function() {
+        mostrarPalitos('cpu');
         flecha1.textContent = '-';
         flecha2.textContent = '-';
         texto.textContent = 'Operacion terminada';
