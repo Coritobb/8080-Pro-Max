@@ -2,6 +2,10 @@ class Assembler8080 {
     constructor() {
         this.opcodes = {
             'NOP': { code: 0x00, bytes: 1 },
+            'FADD': { code: 0x08, bytes: 1 },
+            'FSUB': { code: 0x10, bytes: 1 },
+            'FMUL': { code: 0x18, bytes: 1 },
+            'FDIV': { code: 0x20, bytes: 1 },
             'LXI': { bytes: 3 },
             'STAX': { bytes: 1 },
             'INX': { bytes: 1 },
